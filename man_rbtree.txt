@@ -1,0 +1,195 @@
+
+RBTREE(3)                BSD Library Functions Manual                RBTREE(3)
+
+NAME
+     rbtree, rb_tree_init, rb_tree_insert_node, rb_tree_remove_node,
+     rb_tree_find_node, rb_tree_find_node_geq, rb_tree_find_node_leq,
+     rb_tree_iterate, rb_tree_count, RB_TREE_MIN, RB_TREE_MAX,
+     RB_TREE_FOREACH, RB_TREE_FOREACH_SAFE, RB_TREE_FOREACH_REVERSE,
+     RB_TREE_FOREACH_REVERSE_SAFE -- red-black tree
+
+LIBRARY
+     Standard C Library (libc, -lc)
+
+SYNOPSIS
+     #include <sys/rbtree.h>
+
+     void
+     rb_tree_init(rb_tree_t *rbt, const rb_tree_ops_t *ops);
+
+     void *
+     rb_tree_insert_node(rb_tree_t *rbt, void *rb);
+
+     void
+     rb_tree_remove_node(rb_tree_t *rbt, void *rb);
+
+     void *
+     rb_tree_find_node(rb_tree_t *rbt, const void *key);
+
+     void *
+     rb_tree_find_node_geq(rb_tree_t *rbt, const void *key);
+
+     void *
+     rb_tree_find_node_leq(rb_tree_t *rbt, const void *key);
+
+     void *
+     rb_tree_iterate(rb_tree_t *rbt, void *rb, const unsigned int direction);
+
+     size_t
+     rb_tree_count(rb_tree_t *rbt);
+
+     void *
+     RB_TREE_MIN(rb_tree_t *rbt);
+
+     void *
+     RB_TREE_MAX(rb_tree_t *rbt);
+
+     RB_TREE_FOREACH(void *rb, rb_tree_t *rbt);
+
+     RB_TREE_FOREACH_SAFE(void *rb, rb_tree_t *rbt, void *tmp);
+
+     RB_TREE_FOREACH_REVERSE(void *rb, rb_tree_t *rbt);
+
+     RB_TREE_FOREACH_REVERSE_SAFE(void *rb, rb_tree_t *rbt, void *tmp);
+
+DESCRIPTION
+     rbtree provides red-black trees.  A red-black tree is a binary search
+     tree with the node color as an extra attribute.  It fulfills a set of
+     conditions:
+
+           1.   Every search path from the root to a leaf consists of the same
+                number of black nodes.
+
+           2.   Each red node (except for the root) has a black parent.
+
+           3.   Each leaf node is black.
+
+     Every operation on a red-black tree is bounded as O(lg n).  The maximum
+     height of a red-black tree is 2lg (n+1).
+
+TYPES
+     rb_tree_t
+              A red-black tree.
+
+     typedef signed int (* rbto_compare_nodes_fn)(void *context, const void
+              *node1, const void *node2);
+              The node-comparison function.  Defines an ordering on nodes.
+              Returns a negative value if the first node node1 precedes the
+              second node node2.  Returns a positive value if the first node
+              node1 follows the second node node2.  Returns 0 if the first
+              node node1 and the second node node2 are identical according to
+              the ordering.
+
+     typedef signed int (* rbto_compare_key_fn)(void *context, const void
+              *node, const void *key);
+              The node-key comparison function.  Defines the order of nodes
+              and keys.  Returns a negative value if the node node precedes
+              the key key.  Returns a positive value if the node node follows
+              the key key.  Returns 0 if the node node is identical to the key
+              key according to the ordering.
+
+     rb_tree_ops_t
+              Defines the function for comparing two nodes in the same tree,
+              the function for comparing a node in the tree with a key, the
+              offset of member rb_node_t within the node type, and the opaque
+              context pointer passed to the comparison functions.  Members of
+              rb_tree_ops_t are
+
+                      rbto_compare_nodes_fn rbto_compare_nodes;
+                      rbto_compare_key_fn rbto_compare_key;
+                      size_t rbto_node_offset;
+                      void *rbto_context;
+
+     rb_node_t
+              A node in a red-black tree has this structure as a member.  The
+              offset of the rb_node_t member in the caller's node structure
+              should be provided as rbto_node_offset.  (None of the functions
+              in the rbtree interface are meant to take pointers directly to
+              the rb_node_t member.)
+
+FUNCTIONS
+     rb_tree_init(rbt, ops)
+              Initialize the red-black tree rbt.  Let the comparison functions
+              given by ops define the order of nodes in the tree for the purposes
+              of insertion, search, and iteration.  rb_tree_init()
+              always succeeds.
+
+     rb_tree_insert_node(rbt, rb)
+              Insert the node rb into the tree rbt.  Return inserted node on
+              success, already existing node on failure.
+
+     rb_tree_remove_node(rbt, rb)
+              Remove the node rb from the tree rbt.
+
+     rb_tree_find_node(rbt, key)
+              Search the tree rbt for a node exactly matching key.  If no such
+              node is in the tree, return NULL.  Otherwise, return the matching
+              node.
+
+     rb_tree_find_node_geq(rbt, key)
+              Search the tree rbt for a node that exactly matches key and
+              return it.  If no such node is present, return the first node
+              following key or, if no such node is in the tree, return NULL.
+
+     rb_tree_find_node_leq(rbt, key)
+              Search the tree rbt for a node that exactly matches key and
+              return it.  If no such node is present, return the first node
+              preceding key or, if no such node is in the tree, return NULL.
+
+     rb_tree_iterate(rbt, rb, direction)
+              If direction is RB_DIR_LEFT, return the node in the tree rbt
+              immediately preceding the node rb or, if rb is NULL, return the
+              first node in rbt or, if the tree is empty, return NULL.
+
+              If direction is RB_DIR_RIGHT, return the node in the tree rbt
+              immediately following the node rb or, if rb is NULL, return the
+              last node in rbt or, if the tree is empty, return NULL.
+
+     rb_tree_count(rbt)
+              Return the number of nodes in the tree rbt.  If rbt is NULL, 0
+              is returned.
+
+     RB_TREE_MIN(rbt)
+              Return the first node in rbt, i.e. the node with the least key,
+              or NULL if rbt is empty.
+
+     RB_TREE_MAX(rbt)
+              Return the last node in rbt, i.e. the node with the greatest
+              key, or NULL if rbt is empty.
+
+     RB_TREE_FOREACH(rb, rbt)
+              RB_TREE_FOREACH is a macro to be used in the place of a for
+              header preceding a statement to traverse the nodes in rbt from
+              least to greatest, assigning rb to each node in turn and
+              executing the statement.
+
+     RB_TREE_FOREACH_SAFE(rb, rbt, tmp)
+              RB_TREE_FOREACH_SAFE is a macro to be used like RB_TREE_FOREACH
+              but which uses a temporary variable to permit safe modification
+              or deletion of rb in the body of the loop.
+
+     RB_TREE_FOREACH_REVERSE(rb, rbt)
+              RB_TREE_FOREACH_REVERSE is a macro to be used in the place of a
+              for header preceding a statement to traverse the nodes in rbt
+              from greatest to least, assigning rb to each node in turn and
+              executing the statement.
+
+     RB_TREE_FOREACH_REVERSE_SAFE(rb, rbt, tmp)
+              RB_TREE_FOREACH_REVERSE_SAFE is a macro to be used like
+              RB_TREE_FOREACH_REVERSE but which uses a temporary variable to
+              permit safe modification or deletion of rb in the body of the
+              loop.
+
+SEE ALSO
+     queue(3), tree(3)
+
+HISTORY
+     The rbtree interface first appeared in NetBSD 6.0.
+
+AUTHORS
+     Matt Thomas <matt@NetBSD.org> wrote rbtree.
+
+     Niels Provos <provos@citi.umich.edu> wrote the tree(3) manual page.
+     Portions of this page derive from that page.
+
+BSD                             August 29, 2016                            BSD

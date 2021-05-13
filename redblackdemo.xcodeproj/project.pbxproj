@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		2C988EB2264D505F004F1AD5 /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 2C988EB1264D505F004F1AD5 /* main.c */; };
+		2C988EBA264D5095004F1AD5 /* redblack.c in Sources */ = {isa = PBXBuildFile; fileRef = 2C988EB9264D5095004F1AD5 /* redblack.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -25,6 +26,9 @@
 /* Begin PBXFileReference section */
 		2C988EAE264D505F004F1AD5 /* redblackdemo */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = redblackdemo; sourceTree = BUILT_PRODUCTS_DIR; };
 		2C988EB1264D505F004F1AD5 /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
+		2C988EB8264D5095004F1AD5 /* redblack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = redblack.h; sourceTree = "<group>"; };
+		2C988EB9264D5095004F1AD5 /* redblack.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = redblack.c; sourceTree = "<group>"; };
+		2C988EBB264D50EC004F1AD5 /* man_rbtree.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = man_rbtree.txt; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -41,6 +45,7 @@
 		2C988EA5264D505F004F1AD5 = {
 			isa = PBXGroup;
 			children = (
+				2C988EBB264D50EC004F1AD5 /* man_rbtree.txt */,
 				2C988EB0264D505F004F1AD5 /* redblackdemo */,
 				2C988EAF264D505F004F1AD5 /* Products */,
 			);
@@ -57,6 +62,8 @@
 		2C988EB0264D505F004F1AD5 /* redblackdemo */ = {
 			isa = PBXGroup;
 			children = (
+				2C988EB9264D5095004F1AD5 /* redblack.c */,
+				2C988EB8264D5095004F1AD5 /* redblack.h */,
 				2C988EB1264D505F004F1AD5 /* main.c */,
 			);
 			path = redblackdemo;
@@ -119,6 +126,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2C988EB2264D505F004F1AD5 /* main.c in Sources */,
+				2C988EBA264D5095004F1AD5 /* redblack.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
