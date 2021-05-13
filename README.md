@@ -94,3 +94,4 @@ Depth   5 :     1 Nodes    12 accumulated (100.0%)
 
 You can see from the print of the nodes, how the nodes are connected in the resulting Tree:
 
+![rb-sample](https://user-images.githubusercontent.com/55148527/118146754-357fa900-b40f-11eb-97ea-bb9f3f8d2ff9.png)
