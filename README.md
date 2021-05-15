@@ -108,6 +108,10 @@ The node's print line consist of
   - first opaque pointer: address of left child or zero
   - second opaque poitner: address of right child or zero
   - third opaque pointer: address of its parent, last two bit seems to indicate node's color or status (?).
+  
+Now we can draw the structure of the Red Black Tree. The last two bits of the the opaque pointer are mapped to the color of the nodes:
+
+<img width="734" alt="resulting tree, root at bottom, leafs at top" src="https://user-images.githubusercontent.com/55148527/118361308-202f8980-b58b-11eb-921e-f9e70fedf837.png">
 
 From there we decipher the structure rb_tree_t:
 
