@@ -73,6 +73,7 @@ signed int my_compare_key(void* context, const void* a, const void* b) {
 my_node_s* make_node(const char the_key[]) {
 
     my_node_s* node = malloc(sizeof(my_node_s));
+    memset(node, '\0', sizeof(my_node_s));
     node->key = strdup(the_key);
     node->count = 0;
     return node;

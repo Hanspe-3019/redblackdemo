@@ -24,6 +24,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		2C3C6DF5264FBDD70084B190 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		2C988EAE264D505F004F1AD5 /* redblackdemo */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = redblackdemo; sourceTree = BUILT_PRODUCTS_DIR; };
 		2C988EB1264D505F004F1AD5 /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
 		2C988EB8264D5095004F1AD5 /* redblack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = redblack.h; sourceTree = "<group>"; };
@@ -45,6 +46,7 @@
 		2C988EA5264D505F004F1AD5 = {
 			isa = PBXGroup;
 			children = (
+				2C3C6DF5264FBDD70084B190 /* README.md */,
 				2C988EBB264D50EC004F1AD5 /* man_rbtree.txt */,
 				2C988EB0264D505F004F1AD5 /* redblackdemo */,
 				2C988EAF264D505F004F1AD5 /* Products */,

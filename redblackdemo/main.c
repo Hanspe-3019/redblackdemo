@@ -43,6 +43,7 @@ int main(int argc, const char * argv[]) {
      */
     
     rb_tree_t* my_tree = malloc(sizeof(rb_tree_t));
+    memset(my_tree, '\0', sizeof(rb_tree_t));
     my_context_s context = {
         .count_compare_nodes = 0,
         .count_compare_key = 0,

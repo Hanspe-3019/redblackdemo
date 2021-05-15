@@ -4,7 +4,8 @@ In order to refresh outdated programming skills in C, I started this small proje
 ## Why rbtree?
 Using programming languages like Java, Python or Swift, thanks to the support of collections there is little reason to bother with Red Black Trees. So I was curious to see what C had to offer me.
 
-I did not found any samples showing the use of sys/rbtree.h. My only source of documentation is the man file. 
+I did not found any samples showing the use of __sys/rbtree.h__. My only source of documentation is the man file. 
+
 I was not able to find the source code of the implementation in the repositories of Darwin or BSD.
 
 ## My findings
@@ -49,49 +50,71 @@ After insertion of all words, the tree is examined and parsed:
     }
 
 ```
+
+The context area is used for counting the calls to the two exit functions and to determine the depth of the node: Before calling *rb_tree_find_node()* with repeatedly calls compare_key() the depth in the context area is resetted to zero and compare_key() increments depth at each call.
+
 ## sample run
-
+The Kinks just entered the building, so lets entering some lines from a song:
 ```
-~ % redblack
-Enter some text lines…
-Start splitting by  ,.:;*{}()	<>-
-a b c d e f g h i j k l
-a b b c c c d d d d e e
-Tree: Count of Nodes: 12
+~ % redblackdemo song.txt 
+Start splitting by  ,.:;*{}()    <>-
+Tree: Count of Nodes: 19
 Tree's opaque pointers:
-	0 :     0x7fa36a405d60	1 :     0x7ffee89f7620
-	2 :     0x7fa36a405950	3 :     0x7fa36a405f90
-	4 :                0xc	5 : 0xc000000000000000
-	6 : 0x742d7465672e0008	7 : 0x6f6c6c612d6b7361
+    0 :     0x7fc563d04d60    1 :     0x7ffee7a4e5c0
+    2 :     0x7fc563d04fe0    3 :     0x7fc563d05060
+    4 :               0x13    5 :                0x0
+    6 :                0x0    7 :                0x0
 Hexdump of Tree
-	+0000 | 605D406A A37F0000 20769FE8 FE7F0000
-	+0010 | 5059406A A37F0000 905F406A A37F0000
-	+0020 | 0C000000 00000000 00000000 000000C0
-	+0030 | 08002E67 65742D74 61736B2D 616C6C6F
+    +0000 | 604DD063 C57F0000 C0E5A4E7 FE7F0000
+    +0010 | E04FD063 C57F0000 6050D063 C57F0000
+    +0020 | 13000000 00000000 00000000 00000000
+    +0030 | 00000000 00000000 00000000 00000000
 Context:
-	Calls compare_nodes: 37
-	Calls compare_key: 65
-	Calls dup_key: 12
-0x7fa36a405950 : d=3 2 	a                                :               0x0 :               0x0 :    0x7fa36a405d00 :
-0x7fa36a405d00 : d=2 3 	b                                :    0x7fa36a405950 :    0x7fa36a405d30 :    0x7fa36a405d60 :
-0x7fa36a405d30 : d=3 4 	c                                :               0x0 :               0x0 :    0x7fa36a405d02 :
-0x7fa36a405d60 : d=1 5 	d                                :    0x7fa36a405d00 :    0x7fa36a405e90 :    0x7fa36a405cc0 :
-0x7fa36a405df0 : d=4 3 	e                                :               0x0 :               0x0 :    0x7fa36a405e20 :
-0x7fa36a405e20 : d=3 1 	f                                :    0x7fa36a405df0 :    0x7fa36a405e50 :    0x7fa36a405e91 :
-0x7fa36a405e50 : d=4 1 	g                                :               0x0 :               0x0 :    0x7fa36a405e22 :
-0x7fa36a405e90 : d=2 1 	h                                :    0x7fa36a405e20 :    0x7fa36a405f10 :    0x7fa36a405d62 :
-0x7fa36a405ed0 : d=4 1 	i                                :               0x0 :               0x0 :    0x7fa36a405f10 :
-0x7fa36a405f10 : d=3 1 	j                                :    0x7fa36a405ed0 :    0x7fa36a405f50 :    0x7fa36a405e93 :
-0x7fa36a405f50 : d=4 1 	k                                :               0x0 :    0x7fa36a405f90 :    0x7fa36a405f12 :
-0x7fa36a405f90 : d=5 1 	l                                :               0x0 :               0x0 :    0x7fa36a405f53 :
-Depth   1 :     1 Nodes     1 accumulated (8.3%)
-Depth   2 :     2 Nodes     3 accumulated (25.0%)
-Depth   3 :     4 Nodes     7 accumulated (58.3%)
-Depth   4 :     4 Nodes    11 accumulated (91.7%)
-Depth   5 :     1 Nodes    12 accumulated (100.0%)
+    Calls compare_nodes: 58
+    Calls compare_key: 60
+    Calls dup_key: 1
+0x7fc563d04fe0 : d=4 1     The        :            0x0 :            0x0 : 0x7fc563d049b1 :
+0x7fc563d049b0 : d=3 1     This       : 0x7fc563d04fe0 :            0x0 : 0x7fc563d04ef0 :
+0x7fc563d04ef0 : d=2 1     a          : 0x7fc563d049b0 : 0x7fc563d05190 : 0x7fc563d04d60 :
+0x7fc563d04dd0 : d=5 1     age        :            0x0 :            0x0 : 0x7fc563d051d1 :
+0x7fc563d051d0 : d=4 1     and        : 0x7fc563d04dd0 : 0x7fc563d05210 : 0x7fc563d05190 :
+0x7fc563d05210 : d=5 1     biological :            0x0 :            0x0 : 0x7fc563d051d3 :
+0x7fc563d05190 : d=3 1     bombs      : 0x7fc563d051d0 : 0x7fc563d05150 : 0x7fc563d04ef3 :
+0x7fc563d05150 : d=4 1     hydrogen   :            0x0 :            0x0 : 0x7fc563d05192 :
+0x7fc563d04d60 : d=1 1     is         : 0x7fc563d04ef0 : 0x7fc563d04e50 : 0x7fc563d04d20 :
+0x7fc563d04e90 : d=4 1     machinery  :            0x0 :            0x0 : 0x7fc563d04f30 :
+0x7fc563d04f30 : d=3 1     mechanical : 0x7fc563d04e90 : 0x7fc563d04f70 : 0x7fc563d04e51 :
+0x7fc563d05110 : d=5 1     napalm     :            0x0 :            0x0 : 0x7fc563d04f71 :
+0x7fc563d04f70 : d=4 1     nightmare  : 0x7fc563d05110 :            0x0 : 0x7fc563d04f32 :
+0x7fc563d04e50 : d=2 2     of         : 0x7fc563d04f30 : 0x7fc563d05020 : 0x7fc563d04d62 :
+0x7fc563d050a0 : d=5 1     technology :            0x0 :            0x0 : 0x7fc563d04d91 :
+0x7fc563d04d90 : d=4 1     the        : 0x7fc563d050a0 : 0x7fc563d05250 : 0x7fc563d05020 :
+0x7fc563d05250 : d=5 1     warfare    :            0x0 :            0x0 : 0x7fc563d04d93 :
+0x7fc563d05020 : d=3 1     wonderful  : 0x7fc563d04d90 : 0x7fc563d05060 : 0x7fc563d04e53 :
+0x7fc563d05060 : d=4 1     world      :            0x0 :            0x0 : 0x7fc563d05022 :
+Depth   1 :     1 Nodes     1 accumulated (5.3%)
+Depth   2 :     2 Nodes     3 accumulated (15.8%)
+Depth   3 :     4 Nodes     7 accumulated (36.8%)
+Depth   4 :     7 Nodes    14 accumulated (73.7%)
+Depth   5 :     5 Nodes    19 accumulated (100.0%)
 
 ```
+The node's print line consist of
 
-You can see from the print of the nodes, how the nodes are connected in the resulting Tree:
+  - Its address
+  - Its depth in the tree
+  - the node's occurrence
+  - the node's key
+  - first opaque pointer: address of left child or zero
+  - second opaque poitner: address of right child or zero
+  - third opaque pointer: address of its parent, last two bit seems to indicate node's color or status (?).
 
-![rb-sample](https://user-images.githubusercontent.com/55148527/118146754-357fa900-b40f-11eb-97ea-bb9f3f8d2ff9.png)
+From there we decipher the structure rb_tree_t:
+
+  - First pointer points to the root of the tree.
+  - Second pointer holds the address of the option area.
+  - Third pointer points to the node with the smallest key.
+  - 4th pointer points to the node with the largest key.
+  - 5th pointer holds the count of nodes in tree.
+  
+  
