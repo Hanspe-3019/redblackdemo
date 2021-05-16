@@ -11,6 +11,7 @@
 #include "redblack.h"
 
 void hexdump(size_t len, unsigned char byte[]){
+    printf("Dumping %zu bytes at %p:\n", len, byte);
     char hexa[36];
     size_t j = 0;
     for (size_t i = 0; i < len; i++) {

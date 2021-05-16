@@ -1,25 +1,27 @@
 # redblackdemo
-In order to refresh outdated programming skills in C, I started this small project to demonstrate the use of the BSD Library functions covering __Red Black Trees__.
+In order to refresh outdated programming skills in C, I started this small project to demonstrate the use of the BSD Library functions covering __Red Black Trees__, which where distributed with XCode: **sys/rbtree.h**.
 
 ## Why rbtree?
 Using programming languages like Java, Python or Swift, thanks to the support of collections there is little reason to bother with Red Black Trees. So I was curious to see what C had to offer me.
 
 I did not found any samples showing the use of __sys/rbtree.h__. My only source of documentation is the man file. 
 
-I was not able to find the source code of the implementation in the repositories of Darwin or BSD.
+I was not able to find the source code of a matching implementation in the repositories of Darwin or BSD or Darwin.
 
 ## My findings
-A Red Black Tree is represented by a struct consisting of 8 opaque void pointers.
+A Red Black Tree is represented by a struct  *rb_tree_h*consisting of 8 opaque void pointers.
 
-This structure contains among others:
+The structure of the tree's nodes is defined by the user and must contain an opaque structure *rb_node_t*, which is maintained by the implementation. *rb_node_t* hosts the left/right pointers to the node's children and the node's "color".
+
+*rb_tree_t* is the anchor of the tree and  contains among others:
 
   - the addresses of two exit functions, which have to be supplied by the user:
-    - compare_nodes()
-    - compare_key()
-  - the address of an optional context area supplied by the user to be used as tunnel between the user of rbtree and the exit functions.
-  - The offset of the internal part rb_node_t inside the structure of the nodes.
+    - *compare_nodes()*
+    - *compare_key()*
+  - the address of an optional *context area* supplied by the user to be used as tunnel between the user of rbtree and the exit functions.
+  - The offset of the internal part *rb_node_t* inside the structure of the nodes.
  
- The structure of the tree's nodes is defined by the user and must contain an opaque structure *rb_node_t*, which is maintained by the implementation. *rb_node_t* hosts the left/right pointers to the node's children.
+ The anchor *rb_tree_t* has to be initialized by providing a struct *rb_tree_ops_t* containing the options needed.
  
 ## What does the demo do?
 
@@ -107,9 +109,9 @@ The node's print line consist of
   - the node's key
   - first opaque pointer: address of left child or zero
   - second opaque poitner: address of right child or zero
-  - third opaque pointer: address of its parent, last two bit seems to indicate node's color or status (?).
+  - third opaque pointer: address of its parent, last two bit seems to indicate node's color or status (?). The root node parent points to the anchor of the tree.
   
-Now we can draw the structure of the Red Black Tree. The last two bits of the the opaque pointer are mapped to the color of the nodes:
+Now we can draw the structure of the Red Black Tree. The last two bits of the third opaque pointer are mapped to the color of the node:
 
 <img width="734" alt="resulting tree, root at bottom, leafs at top" src="https://user-images.githubusercontent.com/55148527/118361308-202f8980-b58b-11eb-921e-f9e70fedf837.png">
 
