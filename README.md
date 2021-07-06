@@ -39,7 +39,7 @@ These words are inserted as nodes into a Red Black Tree:
 
 ```
 
-The node's payload beside the key (the word) here has only a count of the occurence of the word.
+The node's payload beside the key (the word) here has only a count of the occurrence of the word.
 
 After insertion of all words, the tree is examined and parsed:
 
